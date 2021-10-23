@@ -1,1 +1,1 @@
-# NN_diffusivity_mapping
+# NN diffusivity mapping
