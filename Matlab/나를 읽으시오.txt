@@ -1,0 +1,32 @@
+Raw image는 .dax라는 형식으로 되어있고 molecule localization result는 .bin이라는 형식으로 되어있어서
+https://github.com/ZhuangLab/storm-analysis/tree/master/storm_analysis
+여기서 그 형식 파일 읽고 쓰는 기능 받아서 써야해
+sa_utilities랑 sa_library 안에 다 있음.
+
+
+1. Simulation
+Training set을 만드는거랑 임의의 데이터 시뮬레이션 하는 두가지 종류있음
+차이는 training set은 한장에 signal 하나씩 고정하고 frame number가 label에 연관되어있어서 분리했음
+
+Training set extraction은 그 label에 맞게 인풋셋으로 만드는 과정. 
+
+데이터 시뮬레이션은 임의의 array를 받아서 FOV를 그 디멘션으로 나눠서 구역별 diffusivity를 주는 방식. 
+
+Circular boundary version도 있음
+
+
+2. Training
+얘는 특별한거 없이 보면 알듯
+다만 위 과정에서 training set extraction이 일단 raw intensity를 가져오도록 해둬서, 
+zero-centering & normalize or standardize는 추가로 해야함 (아직 뭐로 할지 안정해서 안고침)
+
+
+3. Data sampling
+실험데이터/이미지에서 7x7 이미지들과 위치좌표 뽑아내는 과정
+같은 프레임에서 7x7 구역끼리 겹치는건 모두 제외하도록 해뒀음
+사실상 얘가 시간 제일 오래걸림 
+10GB 용량 이미지에서 몇백만게 7x7 뽑아내는 과정이라
+
+4. Data processing
+얘는 그냥 위 결과 spatial binning 하고 각 bin에서 CNN 넣고 결과 매핑하는거.
+JetM3는 그냥 칼라맵 데이터임. 
