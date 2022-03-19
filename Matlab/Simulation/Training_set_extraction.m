@@ -11,7 +11,7 @@ n_stack = 40;
 m_repeat = 100;
 
 ran = RandStream('mlfg6331_64', 'seed', randi(2*m_repeat));
-[roi_array, roi_xy, frame_list] = Extract_roi_training_oneDax([traindir traindax],[traindir binname],ROI_size);
+[roi_array, roi_xy, frame_list] = Extract_roi_training([traindir traindax],[traindir binname],ROI_size);
 
 for i = 1:size(D_label,1)
     d_ind = find((i-1)*frame_length < frame_list & i*frame_length >= frame_list);

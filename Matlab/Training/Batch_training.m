@@ -5,7 +5,7 @@ for i = 1:size(ROIfiles,1)
     load([ROIPath '\' ROIfiles(i).name]);
       
     [net, YVal, YPred, rmse] = ...
-        Training_deepCNN_working_ver(NN_input,Train_D_label);
+        Training_CNN(NN_input,Train_D_label);
 
     % Calculates Linear Regression for ML Prediction against Ground Truth
     A = [ones(length(YVal),1) YVal];

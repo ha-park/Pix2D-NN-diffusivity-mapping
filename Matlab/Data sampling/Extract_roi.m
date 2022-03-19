@@ -58,7 +58,8 @@ for f = 1:frame_interval:frame_length
             indices(frame_ind(n)) = 0;
             continue
         end
-        temp_roi_array(:,:,frame_ind(n)) =  double(movie(y-rhw:y+rhw,x-rhw:x+rhw,fr-f+1));
+        a =  double(movie(y-rhw:y+rhw,x-rhw:x+rhw,fr-f+1));
+        temp_roi_array(:,:,frame_ind(n)) = (a-mean(a,'all'))/std(a,[],'all');
     end
     disp(['Done extracting ' num2str(frame_f) ' frames'])
 end

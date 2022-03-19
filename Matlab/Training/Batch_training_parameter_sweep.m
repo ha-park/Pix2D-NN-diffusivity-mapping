@@ -14,7 +14,7 @@ for i = 1:size(ROIfiles,1)
             tic
             savename = [ROIfiles(i).name(1:end-4) ' Batchsize_' num2str(miniBatchSize(l)) ' LearnRate_' num2str(Initlearnrate(j))];
             [net, YVal, YPred, rmse] = ...
-                Training_deepCNN_parameter_sweep(NN_input,Train_D_label,miniBatchSize(l),Initlearnrate(j),dropoutrate);
+                Training_CNN_parameter_sweep(NN_input,Train_D_label,miniBatchSize(l),Initlearnrate(j),dropoutrate);
 
             % Calculates Linear Regression for ML Prediction against Ground Truth
             A = [ones(length(YVal),1) YVal];

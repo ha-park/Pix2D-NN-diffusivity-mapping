@@ -1,4 +1,4 @@
-function [net, YVal, YPred, rmse] = Training_deepCNN_working_ver(ROI_stack,label)
+function [net, YVal, YPred, rmse] = Training_deepCNN_parameter_sweep(ROI_stack,label,miniBatchSize,Initlearnrate,dropoutrate)
 
 %---------------------------------------------------------------
 % 
@@ -14,7 +14,7 @@ function [net, YVal, YPred, rmse] = Training_deepCNN_working_ver(ROI_stack,label
 % rmse:   validation RMSE
 %
 % Ha H. Park
-% Last modified: Oct 23 2021
+% Last modified: Mar 19 2022
 
 n_channel = size (ROI_stack,3);
 %% Runs the CNN togenerate a predictive model for diffusivity based on pulse length
@@ -24,29 +24,25 @@ layers = [
     
     convolution2dLayer(3,n_channel*2,'Padding','same')
     batchNormalizationLayer
-    swishlayer
+    swishLayer
 
-    convolution2dLayer(2,n_channel*2,'Stride',2)
-    batchNormalizationLayer
-    swishlayer
-    
+    averagePooling2dLayer(2,'Stride',2,'Padding',[1 0 1 0])
+
     convolution2dLayer(3,n_channel*4,'Padding','same')
     batchNormalizationLayer
-    swishlayer
+    swishLayer
 
-    convolution2dLayer(2,n_channel*4,'Stride',2)
-    batchNormalizationLayer
-    swishlayer
+    averagePooling2dLayer(2,'Stride',2,'Padding',[0 1 0 1])
     
     convolution2dLayer(3,n_channel*8,'Padding','same')
     batchNormalizationLayer
-    swishlayer
+    swishLayer
     
     convolution2dLayer(3,n_channel*8,'Padding','same')
     batchNormalizationLayer
-    swishlayer
+    swishLayer
     
-    dropoutLayer(0.2)
+    dropoutLayer(dropoutrate)
     fullyConnectedLayer(1)
     regressionLayer];
 
@@ -62,15 +58,14 @@ XVal = ROI_stack(:,:,:,test(cv));
 YVal = label(test(cv));
 
 % Network training settings
-miniBatchSize  = 256;
 validationFrequency = floor(numel(YTrain)/miniBatchSize);
 options = trainingOptions('sgdm', ...
     'MiniBatchSize',miniBatchSize, ...
-    'MaxEpochs',60, ...
-    'InitialLearnRate',0.01, ...
+    'MaxEpochs',60*miniBatchSize/128, ...
+    'InitialLearnRate',Initlearnrate, ...
     'LearnRateSchedule','piecewise', ...
     'LearnRateDropFactor',0.1, ...
-    'LearnRateDropPeriod',25, ...
+    'LearnRateDropPeriod',25*miniBatchSize/128, ...
     'Shuffle','every-epoch', ...
     'ValidationData',{XVal,YVal}, ...
     'ValidationFrequency',validationFrequency, ...
