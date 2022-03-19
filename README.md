@@ -20,3 +20,5 @@ Localization with Insight3 can be replaced with Python: https://github.com/Zhuan
 * Use Data sampling > Batch_ROI_extraction to extract single-molecule signals and positions
 * Run Data processing > Batch_D_mapper_from_array.m to generate spatial diffusivity map in desired bin size
 * Run Data processing > Dmap_rendering.m to plot 2D diffusivity map in color scale
+
+Contact: Ha Park (ha.park@berkeley.edu)
