@@ -1,9 +1,9 @@
-saveDir         = uigetdir('H:\Fake Dax for NN analysis','Select fordler to save dax files');
-%saveDir = 'H:\Fake Dax for NN analysis\20201106 Training oneDax dimmer dye';
+saveDir         = uigetdir('','Select fordler to save dax files');
 dim             = [24 24];          %simulation image size (x,y) in pixel
-exposure_t      = 0.00899*1000;               %simulation exposure time in ms unit
-roi_width       = 7;               %size of ROI extraction. e.g. 13-by-13 square
+exposure_t      = 8.99;             %simulation exposure time in ms unit
+roi_width       = 7;                %size of ROI extraction. e.g. 13-by-13 square
 particle_density= [1 0];            %particle per frame, [mean s.d.] of normal distribution. For constant number throughout the frame, set s.d. = 0
+<<<<<<< Updated upstream
 Frame_length    = 100000;            %simulation movie length
 sim_t           = 1/100;           %number of simulation steps per frame/exposure time
 photon_burst    = 100;
@@ -25,24 +25,22 @@ for d = 1:D_num
    FreeDmap_to_Dax_simulation(saveDir, [DaxNameHead '_D_' num2str(d) 'th'], diffusivity{d}, ...
         dim, Frame_length, roi_width, particle_density, exposure_t, sim_t, photon_burst,background,sig);
 end
+=======
+Frame_length    = 100000;           %simulation frame length
+sim_t           = 1/100*exposure_t; %time interval of trajectory simulation
+photon_burst    = 120;              %Photon count per ms
+background      = [650 90];         %[avg sd] level of shot noise
+sig             = 0.1436;           %PSF size in um
+pixel_length    = 0.16;              %pixel length in um
+gain_factor     = 20;               %gain factor of imaging
+DaxNameHead     = sprintf('%dHz_%dx%d_',round(1000/exposure_t),dim(1),dim(2));  %not include .dax in the string
+
+diffusivity = {[2 4;2 2]};          %Free dimensional array of diffusivity in image frame
+>>>>>>> Stashed changes
+
+disp(' ')
+FreeDmap_to_Dax_simulation(saveDir, DaxNameHead, diffusivity, ...
+    dim, Frame_length, roi_width, particle_density, exposure_t, sim_t, photon_burst,background,sig,pixel_length,gain_factor);
 
 disp(' ')
 disp(['Simulation complete: Saved to ' saveDir])
-
-fid = fopen([saveDir '\simulation info.txt'],'wt');
-fprintf(fid,'%s\r\n','Simulation condition summary');
-fprintf(fid,'Image dimension     = %d - by - %d pixel\r\n',dim(1),dim(2));
-fprintf(fid,'Exposure time       = %d ms\r\n',exposure_t);
-fprintf(fid,'ROI size suggestion = %d pixel\r\n',roi_width);
-fprintf(fid,'Trajectory interval = %f ms\r\n',sim_t);
-fprintf(fid,'Frame length        = %d\r\n',Frame_length);
-fprintf(fid,'Photon burst        = %d per ms\r\n',photon_burst);
-fprintf(fid,'Noise level         = %d\r\n',background);
-fprintf(fid,'Particle density    = mean: %.2f, std: %.3f\r\n',particle_density(1),particle_density(2));
-fprintf(fid,'Diffusivity (map)     [um2/s]');
-for i = 1:size(diffusivity,2)
-    fprintf(fid,['\r\n    ' mat2str(diffusivity{i})]);
-end
-fclose(fid);
-
-clearvars

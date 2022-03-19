@@ -1,14 +1,10 @@
-clearvars
-
-ROIPath = uigetdir('G:\My Drive\Xu Lab\3. NN D map (10.1.2020 ~ )\Data and results','Select ROI array batch folder for NN training');
+ROIPath = uigetdir('','Select ROI array batch folder for NN training');
 ROIfiles = dir(fullfile(ROIPath, '*.mat'));
-%saveDir  = ROIPath;
-saveDir  = uigetdir('G:\My Drive\Xu Lab\3. NN D map (10.1.2020 ~ )\Data and results','Select path to save result');
+saveDir  = uigetdir('','Select path to save result');
 
 Initlearnrate = [0.005 0.003 0.001];
 miniBatchSize = [128 256];
 dropoutrate   = 0.2;
-
 
 for i = 1:size(ROIfiles,1)
     load([ROIPath '\' ROIfiles(i).name]);

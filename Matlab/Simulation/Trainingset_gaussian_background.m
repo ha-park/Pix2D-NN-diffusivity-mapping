@@ -1,4 +1,4 @@
-function daxmovie = FreeDmap_to_Dax_trainingset_oneDax_gaussian_background(Dmap,dim,FrameLength,Particle_density,exposure_t,sim_t,photon_burst,bg,pl,sig)
+function daxmovie = Trainingset_gaussian_background(Dmap,dim,FrameLength,Particle_density,exposure_t,sim_t,photon_burst,bg,pl,sig, gain_factor)
 
 %------------------------------------------------
 % This function generates Dax images for motion-blur NN analysis training
@@ -14,19 +14,14 @@ function daxmovie = FreeDmap_to_Dax_trainingset_oneDax_gaussian_background(Dmap,
 % bg: [mean sd] of Gaussian distribution
 % Photon_burst: photon count per ms
 % sig: PSF sigma assuming gaussian
+% gain_factor: gain factor of imaging setup
 %--------------------------------------------------------------------------
 % Ha Park
-% October 17, 2021
+% March 18, 2022
 % Version 3.0
 %
 
 sim_step = exposure_t/sim_t;
-
-%NA = 1.40; % Numerical Aperture
-%wl = 0.570; % Emission wavelength, in um
-%sig = 0.61 * wl / NA /2.355;% psf std, in um 
-
-gain_factor = 20;
 daxmovie = zeros(dim(2),dim(1),FrameLength);
 [x,y] = meshgrid(1:dim(1),1:dim(2));
 
@@ -50,5 +45,4 @@ for f = 1:FrameLength
    end
    frame = uint16(frame);
   daxmovie(:,:,f) = frame;
-
 end

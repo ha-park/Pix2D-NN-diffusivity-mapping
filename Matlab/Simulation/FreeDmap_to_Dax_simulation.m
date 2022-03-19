@@ -1,4 +1,4 @@
-function FreeDmap_to_Dax_simulation(OutDir,FileName,Dmap,dim,FrameLength,roi_width,Particle_density,exposure_t,sim_t,photon_burst,bg,sig)
+function FreeDmap_to_Dax_simulation(OutDir,FileName,Dmap,dim,FrameLength,roi_width,Particle_density,exposure_t,sim_t,photon_burst,bg,sig,pl,gain_factor)
 
 %------------------------------------------------
 % This function generates simulated Dax images for motion-blur NN analysis
@@ -16,10 +16,12 @@ function FreeDmap_to_Dax_simulation(OutDir,FileName,Dmap,dim,FrameLength,roi_wid
 % photon_burst: photon count of molecuel per ms
 % bg: Gaussian background noise [mean std]
 % sig: sigma PSF assuming gaussian
+% pl: pixel length in um
+% gain_factor: gain factor of imaging
 %--------------------------------------------------------------------------
 % Ha Park
-% October 18, 2021
-% Version 3.0
+% March 18, 2022
+% Version 4.0
 
 
 Dsize = size(Dmap');
@@ -29,15 +31,9 @@ disp(['Image dimension: ' num2str(dim(1)) '-by-' num2str(dim(2)) ' pixel'])
 disp(['Total frames: ' num2str(FrameLength)])
 disp(' ')
 
-% roi_half_width
-% Currently I am using roi_width = 7
-% This parameter is used to efficiently generate single molecule signals
-% those are starting far enough from the frame boundary
 rhw = (roi_width-1)/2;
 sim_step = exposure_t/sim_t;
 
-gain_factor = 20;
-pl = 0.16; %pixel length in um
 xs = dim(1)/Dsize(1)*pl;
 ys = dim(2)/Dsize(2)*pl;
 daxmovie = zeros(dim(2),dim(1),FrameLength);
