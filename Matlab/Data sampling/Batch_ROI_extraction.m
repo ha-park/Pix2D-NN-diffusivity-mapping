@@ -1,11 +1,6 @@
-<<<<<<< Updated upstream
-DaxPath = uigetdir('G:\My Drive\Xu Lab\3. NN D map (10.1.2020 ~ )\Images','Select Dax batch folder to extract ROI');
-=======
- DaxPath = uigetdir('','Select Dax batch folder to extract ROI');
->>>>>>> Stashed changes
+DaxPath = uigetdir('','Select Dax batch folder to extract ROI');
 Daxfiles = dir(fullfile(DaxPath, '*.dax'));
 saveDir  = uigetdir('','Select path to save result');
-
 ROI_size = 7;
 frame_interval = 6000; 
 

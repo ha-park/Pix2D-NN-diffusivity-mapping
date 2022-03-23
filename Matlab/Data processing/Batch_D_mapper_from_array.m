@@ -9,8 +9,6 @@ ROIPath = uigetdir('','Select ROI batch folder to extract map');
 ROIfiles = dir(fullfile(ROIPath, 'ROI array*.mat'));
 saveDir  = uigetdir('','Select path to save result');
 
-
-=======
 ROI_size = 7;
 bin_scale = 0.75;
 n_ch = net.Layers(1).InputSize(3);
@@ -34,11 +32,13 @@ for i = 1:size(ROIfiles,1)
     [ind_cell,ind_array] = pixel_binner(roi_xy,dim,bin_scale);
     for l = 1:size(ind_array,1)
         ind_pool = ind_cell{ind_array(l)};
+        pool_size = length(ind_pool);
         I_map(ind_array(l)) = size(ind_pool,1);
-        NN_input = zeros(ROI_size,ROI_size,n_stack,m_repeat);
+        NN_input = zeros(ROI_size,ROI_size,n_ch,m_repeat);
         for j = 1:m_repeat
-            rand_seq = datasample(ran, ind_pool, n_stack, 'replace', false);
-            for k = 1:n_stack
+            rand_seq = datasample(ran, (1:pool_size*ceil(n_ch/pool_size)), n_ch, 'replace', false);
+            rand_seq = mod(rand_seq-1,pool_size)+1;
+            for k = 1:n_ch
                 NN_input(:,:,k,j) = roi_array(:,:,rand_seq(k));
             end
         end
