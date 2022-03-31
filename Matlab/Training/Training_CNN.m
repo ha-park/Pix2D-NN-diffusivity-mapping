@@ -24,27 +24,27 @@ layers = [
     
     convolution2dLayer(3,n_channel*2,'Padding','same')
     batchNormalizationLayer
-    swishlayer
+    reluLayer
 
     convolution2dLayer(2,n_channel*2,'Stride',2)
     batchNormalizationLayer
-    swishlayer
+    reluLayer
     
     convolution2dLayer(3,n_channel*4,'Padding','same')
     batchNormalizationLayer
-    swishlayer
+    reluLayer
 
     convolution2dLayer(2,n_channel*4,'Stride',2)
     batchNormalizationLayer
-    swishlayer
+    reluLayer
     
     convolution2dLayer(3,n_channel*8,'Padding','same')
     batchNormalizationLayer
-    swishlayer
+    reluLayer
     
     convolution2dLayer(3,n_channel*8,'Padding','same')
     batchNormalizationLayer
-    swishlayer
+    reluLayer
     
     dropoutLayer(0.2)
     fullyConnectedLayer(1)

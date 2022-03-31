@@ -49,7 +49,7 @@ for f = 1:frame_interval:frame_length
     movie = ReadDax(dax_name,'verbose',false,'startFrame',f,'endFrame',frame_f);
     frame_ind = find(frame_list <= frame_f & frame_list >= f);
 
-    for n = 1:size(frame_ind,1)
+    for n = 1:length(frame_ind)
         ind = indices(frame_ind(n));
         x = rx(ind); y = ry(ind); fr = r.frame(ind);
         same_frame_ind = find(r.frame == fr);
@@ -58,7 +58,7 @@ for f = 1:frame_interval:frame_length
             indices(frame_ind(n)) = 0;
             continue
         end
-        a =  double(movie(y-rhw:y+rhw,x-rhw:x+rhw,fr-f+1));
+        a = double(movie(y-rhw:y+rhw,x-rhw:x+rhw,fr-f+1));
         temp_roi_array(:,:,frame_ind(n)) = (a-mean(a,'all'))/std(a,[],'all');
     end
     disp(['Done extracting ' num2str(frame_f) ' frames'])

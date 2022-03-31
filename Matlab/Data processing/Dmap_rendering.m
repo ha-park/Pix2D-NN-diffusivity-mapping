@@ -20,14 +20,14 @@ for i = 1:N
     j = imshow(mask);
     set(j,'AlphaData', max(1-I_map/(mean(I_map,'all')+std(I_map,0,'all')),0))
 
-    crange = [0 6];
+    crange = [0 5];
     caxis(crange)
     c = colorbar;
-    colormap(JetM3)
+    colormap(JetM2)
     c.Label.String = ['Fitted Local D (' char(181) 'm^{2}/s)'];
     title(['Bin size = ' num2str(binnum) ' pixel'])
     
-    %saveas(gcf,[filedir '/' filehead '_[' num2str(crange(1)) ' ' num2str(crange(2)) '].fig'])
+    saveas(gcf,[filedir '/' filehead '_[' num2str(crange(1)) ' ' num2str(crange(2)) '].fig'])
     saveas(gcf,[filedir '/' filehead '_[' num2str(crange(1)) ' ' num2str(crange(2)) '].svg'])   
     close(gcf)
 end

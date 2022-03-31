@@ -32,7 +32,7 @@ ind_x = ind(:,1);
 ind_y = ind(:,2);
 
 % find all the molecules in each bin
-for i = 1:size(roi_xy,1)
+for i = 1:length(roi_xy)
     try
         ind_cell{ind_y(i),ind_x(i)} = [ind_cell{ind_y(i),ind_x(i)}; i];  
     end
