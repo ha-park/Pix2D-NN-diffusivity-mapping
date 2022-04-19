@@ -14,7 +14,7 @@ D_num = size(diffusivity,1);
 
 for i = 1:length(photon_burst)
     for j = 1:length(background)
-        daxmovie = zeros(dim(2),dim(1),Frame_length*D_num);
+        daxmovie = zeros(dim(2),dim(1),N_per_D*D_num);
         DaxNameHead     = sprintf('%dHz_bg%d_photon %d_%dto%d',round(1000/exposure_t),background{j}(1),photon_burst(i),diffusivity(1),diffusivity(end));  %not include .dax in the string
         for d = 1:D_num
             tempdax = Trainingset_gaussian_background(diffusivity(d), ...

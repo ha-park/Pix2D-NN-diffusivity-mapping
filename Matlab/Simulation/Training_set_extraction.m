@@ -3,7 +3,7 @@
 saveDir  = uigetdir('','Select path to save result');
 binname = [traindax(1:end-4) '_list.bin'];
 
-D_label = (0:0.06:6)';  %input same sequence from training
+D_label = (0:0.05:6)';  %input same sequence from training
 frame_length = 400;     %number of molecules per diffusivity
 
 ROI_size = 7;

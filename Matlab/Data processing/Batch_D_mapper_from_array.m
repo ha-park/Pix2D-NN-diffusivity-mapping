@@ -12,7 +12,7 @@ saveDir  = uigetdir('','Select path to save result');
 ROI_size = 7;
 bin_scale = 0.75;
 n_ch = net.Layers(1).InputSize(3);
-m_repeat = 100;
+m_repeat = 60;
 ran = RandStream('mlfg6331_64', 'seed', randi(2*m_repeat));
 
 for i = 1:size(ROIfiles,1)
@@ -39,7 +39,7 @@ for i = 1:size(ROIfiles,1)
             rand_seq = datasample(ran, (1:pool_size*ceil(n_ch/pool_size)), n_ch, 'replace', false);
             rand_seq = mod(rand_seq-1,pool_size)+1;
             for k = 1:n_ch
-                NN_input(:,:,k,j) = roi_array(:,:,rand_seq(k));
+                NN_input(:,:,k,j) = roi_array(:,:,ind_pool(rand_seq(k)));
             end
         end
         D_predicted = predict(net, NN_input);
@@ -48,6 +48,6 @@ for i = 1:size(ROIfiles,1)
     end
     disp([num2str(i) ' th data Mapping complete'])
     
-    save ([saveDir '/Dmap_' filehead '_Bin size_' num2str(bin_scale) '_' num2str(m_repeat) 'repeats.mat'], 'D_map','sd_map','I_map','net')
+    save ([saveDir '/Dmap_' filehead '_Bin size_' num2str(bin_scale) '_' num2str(m_repeat) ' repeats.mat'], 'D_map','sd_map','I_map','net')
     clearvars -except i net ROIPath ROIfiles bin_scale n_ch m_repeat ran saveDir ROI_size
 end

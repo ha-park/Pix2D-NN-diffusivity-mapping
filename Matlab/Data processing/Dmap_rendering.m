@@ -4,6 +4,7 @@ filedir = uigetdir('','Select directory for batch Dmap rendering');
 matlist = dir(fullfile(filedir,'Dmap*.mat'));
 
 N = size(matlist,1);
+drange = [0 9];
 
 for i = 1:N
     load([filedir '/' matlist(i).name]);
@@ -20,14 +21,14 @@ for i = 1:N
     j = imshow(mask);
     set(j,'AlphaData', max(1-I_map/(mean(I_map,'all')+std(I_map,0,'all')),0))
 
-    crange = [0 5];
-    caxis(crange)
+    drange = [0 5];
+    caxis(drange)
     c = colorbar;
     colormap(JetM2)
     c.Label.String = ['Fitted Local D (' char(181) 'm^{2}/s)'];
     title(['Bin size = ' num2str(binnum) ' pixel'])
     
-    saveas(gcf,[filedir '/' filehead '_[' num2str(crange(1)) ' ' num2str(crange(2)) '].fig'])
-    saveas(gcf,[filedir '/' filehead '_[' num2str(crange(1)) ' ' num2str(crange(2)) '].svg'])   
+    saveas(gcf,[filedir '/' filehead '_[' num2str(drange(1)) ' ' num2str(drange(2)) '].fig'])
+    saveas(gcf,[filedir '/' filehead '_[' num2str(drange(1)) ' ' num2str(drange(2)) '].svg'])   
     close(gcf)
 end
