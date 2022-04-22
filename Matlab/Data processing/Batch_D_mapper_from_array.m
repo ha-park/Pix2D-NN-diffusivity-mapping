@@ -10,7 +10,7 @@ ROIfiles = dir(fullfile(ROIPath, 'ROI array*.mat'));
 saveDir  = uigetdir('','Select path to save result');
 
 ROI_size = 7;
-bin_scale = 0.75;
+bin_scale = 1;
 n_ch = net.Layers(1).InputSize(3);
 m_repeat = 60;
 ran = RandStream('mlfg6331_64', 'seed', randi(2*m_repeat));
