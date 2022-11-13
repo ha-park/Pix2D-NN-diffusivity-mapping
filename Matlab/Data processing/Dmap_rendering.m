@@ -4,14 +4,14 @@ filedir = uigetdir('','Select directory for batch Dmap rendering');
 matlist = dir(fullfile(filedir,'Dmap*.mat'));
 
 N = size(matlist,1);
-drange = [0 9];
+drange = [0 5];
 
 for i = 1:N
     load([filedir '/' matlist(i).name]);
     filehead = matlist(i).name(1:end-4);
     FindDPos2=strfind(matlist(i).name,'Bin size_');
     
-    binnum = 0.75;
+    binnum = 1.5;
     figure('position',[500 500 700 600],'Menubar','none','toolbar','none','visible','off');
     imshow(D_map,'InitialMagnification','fit')
     hold on
